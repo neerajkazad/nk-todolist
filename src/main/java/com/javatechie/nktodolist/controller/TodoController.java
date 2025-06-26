@@ -16,7 +16,6 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    // Get all todos
     @GetMapping
     public List<Todo> getAllTodos() {
         return todoService.getAllTodos();
