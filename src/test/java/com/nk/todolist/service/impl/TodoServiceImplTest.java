@@ -1,7 +1,7 @@
-package com.javatechie.nktodolist.service.impl;
+package com.nk.todolist.service.impl;
 
-import com.javatechie.nktodolist.model.Todo;
-import com.javatechie.nktodolist.repository.TodoRepository;
+import com.nk.todolist.model.Todo;
+import com.nk.todolist.repository.TodoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,10 +36,10 @@ class TodoServiceImplTest {
     void setUp() {
         todo1 = new Todo("Buy groceries", false);
         todo1.setId(1L);
-        
+
         todo2 = new Todo("Finish homework", true);
         todo2.setId(2L);
-        
+
         todoList = Arrays.asList(todo1, todo2);
     }
 
@@ -64,7 +64,7 @@ class TodoServiceImplTest {
         Todo newTodo = new Todo("New task", false);
         Todo savedTodo = new Todo("New task", false);
         savedTodo.setId(3L);
-        
+
         when(todoRepository.save(any(Todo.class))).thenReturn(savedTodo);
 
         // When
@@ -76,6 +76,39 @@ class TodoServiceImplTest {
         assertEquals("New task", result.getTitle());
         assertFalse(result.isCompleted());
         verify(todoRepository, times(1)).save(any(Todo.class));
+    }
+
+    @Test
+    void createTodo_withExistingId_shouldCreateNewTodo() {
+        // Given
+        Todo todoWithId = new Todo("Task with ID", false);
+        todoWithId.setId(8L); // This is the ID from the error message
+
+        Todo savedTodo = new Todo("Task with ID", false);
+        savedTodo.setId(3L); // New ID assigned by the database
+
+        // Verify that a new Todo object is created and saved
+        when(todoRepository.save(argThat(todo -> 
+            todo.getId() == null && // New Todo should have null ID
+            todo.getTitle().equals("Task with ID") && 
+            !todo.isCompleted()
+        ))).thenReturn(savedTodo);
+
+        // When
+        Todo result = todoService.createTodo(todoWithId);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(3L, result.getId()); // Should have the new ID
+        assertEquals("Task with ID", result.getTitle());
+        assertFalse(result.isCompleted());
+
+        // Verify that save was called with a new Todo object (without ID)
+        verify(todoRepository, times(1)).save(argThat(todo -> 
+            todo.getId() == null && 
+            todo.getTitle().equals("Task with ID") && 
+            !todo.isCompleted()
+        ));
     }
 
     @Test
@@ -112,7 +145,7 @@ class TodoServiceImplTest {
         Todo todoToUpdate = new Todo("Updated task", true);
         Todo updatedTodo = new Todo("Updated task", true);
         updatedTodo.setId(1L);
-        
+
         when(todoRepository.findById(1L)).thenReturn(Optional.of(todo1));
         when(todoRepository.save(any(Todo.class))).thenReturn(updatedTodo);
 

@@ -1,6 +1,6 @@
-package com.javatechie.nktodolist.repository;
+package com.nk.todolist.repository;
 
-import com.javatechie.nktodolist.model.Todo;
+import com.nk.todolist.model.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

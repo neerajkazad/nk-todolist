@@ -1,8 +1,8 @@
-package com.javatechie.nktodolist.controller;
+package com.nk.todolist.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javatechie.nktodolist.model.Todo;
-import com.javatechie.nktodolist.service.TodoService;
+import com.nk.todolist.model.Todo;
+import com.nk.todolist.service.TodoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

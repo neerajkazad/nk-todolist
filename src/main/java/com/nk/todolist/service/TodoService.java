@@ -1,6 +1,6 @@
-package com.javatechie.nktodolist.service;
+package com.nk.todolist.service;
 
-import com.javatechie.nktodolist.model.Todo;
+import com.nk.todolist.model.Todo;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

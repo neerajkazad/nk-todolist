@@ -1,8 +1,8 @@
-package com.javatechie.nktodolist.service.impl;
+package com.nk.todolist.service.impl;
 
-import com.javatechie.nktodolist.model.Todo;
-import com.javatechie.nktodolist.repository.TodoRepository;
-import com.javatechie.nktodolist.service.TodoService;
+import com.nk.todolist.model.Todo;
+import com.nk.todolist.repository.TodoRepository;
+import com.nk.todolist.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,9 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo createTodo(Todo todo) {
-        return todoRepository.save(todo);
+        // Create a new Todo object to ensure we're not updating an existing record
+        Todo newTodo = new Todo(todo.getTitle(), todo.isCompleted());
+        return todoRepository.save(newTodo);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class TodoServiceImpl implements TodoService {
                     // Update the todo fields
                     existingTodo.setTitle(todoDetails.getTitle());
                     existingTodo.setCompleted(todoDetails.isCompleted());
-                    
+
                     // Save the updated todo
                     Todo updatedTodo = todoRepository.save(existingTodo);
                     return ResponseEntity.ok(updatedTodo);

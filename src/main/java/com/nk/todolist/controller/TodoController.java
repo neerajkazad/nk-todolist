@@ -1,8 +1,9 @@
-package com.javatechie.nktodolist.controller;
+package com.nk.todolist.controller;
 
-import com.javatechie.nktodolist.model.Todo;
-import com.javatechie.nktodolist.service.TodoService;
+import com.nk.todolist.model.Todo;
+import com.nk.todolist.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,9 @@ public class TodoController {
 
     // Delete a todo
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTodo(@PathVariable Long id) {
-        return todoService.deleteTodo(id);
+    public ResponseEntity<String> deleteTodo(@PathVariable Long id) {
+        String msg = "Record Deleted Successfully";
+        todoService.deleteTodo(id);
+        return new ResponseEntity<>(msg,HttpStatus.OK);
     }
 }

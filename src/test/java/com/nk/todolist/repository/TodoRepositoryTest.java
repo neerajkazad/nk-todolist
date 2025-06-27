@@ -1,6 +1,6 @@
-package com.javatechie.nktodolist.repository;
+package com.nk.todolist.repository;
 
-import com.javatechie.nktodolist.model.Todo;
+import com.nk.todolist.model.Todo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
